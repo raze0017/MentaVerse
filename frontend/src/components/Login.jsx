@@ -1,7 +1,7 @@
 import React from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
-function Login() {
+function Login({ setLoggedIn }) {
   const navigate = useNavigate();
   const url = import.meta.env.VITE_API_URL;
   const [formData, setFormData] = useState({
@@ -15,11 +15,13 @@ function Login() {
       headers: { "Content-type": "application/json" },
       body: JSON.stringify(formData),
     });
-    const token = response.json();
+    const data = await response.json();
+    const token = data.token;
     if (response.ok) {
       console.log("token,", token);
       localStorage.setItem("token", token);
-      localStorage.setItem("loggedIn", 1);
+      localStorage.setItem("loggedIn", "1");
+      setLoggedIn(1);
       navigate("/home");
     } else {
       alert("Incorrect credentials");

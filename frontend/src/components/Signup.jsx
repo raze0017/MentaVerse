@@ -1,9 +1,14 @@
-import React from "react";
+import React, { useEffect } from "react";
 import { useState } from "react";
 import { useNavigate } from "react-router-dom";
 
-function Signup() {
+function Signup({ loggedIn }) {
   const navigate = useNavigate();
+  useEffect(() => {
+    if (loggedIn == 0) {
+      navigate("/home");
+    }
+  }, [navigate, loggedIn]);
   const url = import.meta.env.VITE_API_URL;
   const [formData, setFormData] = useState({
     username: "",
@@ -48,7 +53,7 @@ function Signup() {
         />
         <input className="btn btn-primary" type="submit" />
       </form>
-      <div onClick={navigate("/login")} className="btn btn-accent">
+      <div onClick={() => navigate("/login")} className="btn btn-accent">
         Already have an account?
       </div>
     </div>
